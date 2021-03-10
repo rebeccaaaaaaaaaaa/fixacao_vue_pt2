@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exerciico V-BIND</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+   
+</head>
+<body>
+    <style scoped>
+
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+        body{
+
+            font-family: 'Inter', sans-serif;
+        }
+
+        .verde{
+            color: green;
+        }
+
+        .vermelho{
+            color: red;
+        }
+
+        .section_content{
+
+            background: #eee;
+        }
+    </style>
+
+    <div id="app">
+        <div class="container">
+                <div class="section_content py-5">
+                     <div class="row">
+                         <div class="col-lg-12">
+                            <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Company</th>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">Valor de Mercado</th>
+                                    <th scope="col">Ultimo Preço</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <th scope="row"> {{apple.symbol}}</th>
+                                    <td>{{apple.companyName}}</td>
+                                    <td>{{apple.marketCap}}</td>
+                                    <td>{{apple.latestPrice}}</td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">{{google.symbol}}</th>
+                                    <td>{{google.companyName}}</td>
+                                    <td>{{google.marketCap}}</td>
+                                    <td>{{google.latestPrice}}</td>
+                                  </tr>
+
+                                </tbody>
+                              </table>
+                         </div>
+                        <!-- <div class="col-lg-6 text-center">
+                            <div class="apple">
+                                <p>  {{apple.companyName}} </p>
+                                <p :class="apple.marketCap > google.marketCap ? 'verde' : 'vermelho'">  {{apple.marketCap}}</p>
+                              </div>
+                        </div>
+        
+                        <div class="col-lg-6 text-center">
+                            <div class="google">
+                                <p>  {{google.companyName}} </p>
+                                <p :class="google.marketCap > apple.marketCap ? 'verde' : 'vermelho'">  {{google.marketCap}} </p>
+                            </div>
+                        </div> -->
+        
+                        <div class="col-lg-12 text-center">
+                            <p id="title"> Carregar dados </p>
+                            <button @click="puxarDados" class="btn btn-primary"> Enviar </button>
+                     </div>
+               </div>
+        </div>
+  
+       
+
+        
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    <script src="./vue.js"></script>
+       
+    <script>
+
+    //https://cloud.iexapis.com/stable/stock/aapl/quote?token=sk_2846ac90cbc343338e6da673ee4c04f2
+        const vm = new Vue({
+            el: "#app",
+            data:{
+                google: {},
+                apple: {},
+            },
+            methods: {
+               fetchGoogle(){
+                 fetch("https://cloud.iexapis.com/stable/stock/googl/quote?token=sk_2846ac90cbc343338e6da673ee4c04f2")
+                 .then(r => r.json())
+                 .then(google => {
+                    this.google = google;
+                 })
+               },
+               fetchApple(){
+                fetch("https://cloud.iexapis.com/stable/stock/aapl/quote?token=sk_2846ac90cbc343338e6da673ee4c04f2")
+                 .then(r => r.json())
+                 .then(apple =>{
+                    this.apple = apple;
+                 })
+               },
+            puxarDados(){
+                this.fetchApple();
+                this.fetchGoogle();
+                document.getElementById("title").style.visibility = "hidden";
+                }
+            }
+        })
+    </script>
+</body>
+</html>
